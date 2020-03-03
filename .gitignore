@@ -1,0 +1,8 @@
+# 忽略提交脚本
+git_push.sh
+# 忽略所有data文件夹下的内容
+**/data/*
+# 忽略所有logs文件夹下的内容
+**/logs/*
+#
+.DS_Store

@@ -1,0 +1,4 @@
+hello-world:
+  image: hello-world
+  container_name: hello-world
+  hostname: hello-world

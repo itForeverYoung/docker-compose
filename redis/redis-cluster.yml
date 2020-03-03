@@ -1,0 +1,17 @@
+version: '3'
+services:
+  redis:
+    image: redis
+    container_name: redis
+    hostname: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - "${LOCAL_PATH}/redis/single/conf:/etc/redis"
+      - "${LOCAL_PATH}/redis/single/data:/data"
+    # 开启持久化
+    command: ['redis-server', '--appendonly', 'yes']
+    networks:
+      - db
+networks:
+  db:

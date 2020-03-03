@@ -1,0 +1,52 @@
+version: '3'
+services:
+  mysql:
+    image: mysql:5.7
+    container_name: mysql-5.7
+    hostname: mysql-5.7
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+  redis:
+    image: redis
+    container_name: redis
+    hostname: redis
+    ports:
+      - "6379:6379"
+  mongo:
+    image: mongo
+    container_name: mongodb
+    hostname: mongo
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: 123456
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbitmq
+    hostname: rabbitmq
+    ports:
+      - "5671:5671"
+      - "5672:5672"
+      - "15671:15671"
+      - "15672:15672"
+      - "4369:4369"
+    environment:
+        RABBITMQ_DEFAULT_USER: root
+        RABBITMQ_DEFAULT_PASS: 123456
+  elasticsearch:
+    image: elasticsearch
+    container_name: elasticsearch
+    hostname: elasticsearch
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+  kibana: 
+    image: kibana
+    container_name: kibana
+    hostname: kibana
+    ports:
+      - "5601:5601"
+    links: [elasticsearch]

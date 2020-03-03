@@ -1,0 +1,64 @@
+version: '3'
+services:
+  rabbitmq-1:
+    image: rabbitmq:management
+    container_name: rabbitmq-1
+    hostname: rabbitmq
+    ports:
+      - "5671:5671"
+      - "5672:5672"
+      - "15671:15671"
+      - "15672:15672"
+      - "4369:4369"
+    environment:
+        RABBITMQ_DEFAULT_USER: root
+        RABBITMQ_DEFAULT_PASS: 123456
+    # volumes:
+      # - "./single/conf/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf"
+      # - "./single/data:/var/lib/rabbitmq"
+    # 是否自动重启
+    # restart: always
+    networks: 
+      - mq
+  rabbitmq-2:
+    image: rabbitmq:management
+    container_name: rabbitmq-2
+    hostname: rabbitmq
+    ports:
+      - "5671:5671"
+      - "5672:5672"
+      - "15671:15671"
+      - "15672:15672"
+      - "4369:4369"
+    environment:
+        RABBITMQ_DEFAULT_USER: root
+        RABBITMQ_DEFAULT_PASS: 123456
+    # volumes:
+      # - "./single/conf/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf"
+      # - "./single/data:/var/lib/rabbitmq"
+    # 是否自动重启
+    # restart: always
+    networks: 
+      - mq
+  rabbitmq-3:
+    image: rabbitmq:management
+    container_name: rabbitmq-3
+    hostname: rabbitmq
+    ports:
+      - "5671:5671"
+      - "5672:5672"
+      - "15671:15671"
+      - "15672:15672"
+      - "4369:4369"
+    environment:
+        RABBITMQ_DEFAULT_USER: root
+        RABBITMQ_DEFAULT_PASS: 123456
+    # volumes:
+      # - "./single/conf/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf"
+      # - "./single/data:/var/lib/rabbitmq"
+    # 是否自动重启
+    # restart: always
+    networks: 
+      - mq
+networks:
+  mq:

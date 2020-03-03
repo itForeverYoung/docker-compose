@@ -1,0 +1,36 @@
+es-master:
+  image: elasticsearch
+  container_name: es-master
+  hostname: elasticsearch
+  ports:
+    - "9200:9200"
+    - "9300:9300"
+  environment:
+    ES_JAVA_OPTS: "-Xms256m -Xmx256m"
+  volumes:
+    - "${LOCAL_PATH}/cluster/config/es-master.yml:/usr/share/elasticsearch/config/elasticsearch.yml"
+    - "${LOCAL_PATH}/cluster/data-m:/usr/share/elasticsearch/data"
+es-slaver-1:
+  image: elasticsearch
+  container_name: es-slaver-1
+  hostname: elasticsearch
+  ports:
+    - "9201:9200"
+    - "9301:9300"
+  environment:
+    ES_JAVA_OPTS: "-Xms256m -Xmx256m"
+  volumes:
+    - "${LOCAL_PATH}/cluster/config/es-slaver-1.yml:/usr/share/elasticsearch/config/elasticsearch.yml"
+    - "${LOCAL_PATH}/cluster/data-s-1:/usr/share/elasticsearch/data"
+es-slaver-2:
+  image: elasticsearch
+  container_name: es-slaver-2
+  hostname: elasticsearch
+  ports:
+    - "9202:9200"
+    - "9302:9300"
+  environment:
+    ES_JAVA_OPTS: "-Xms256m -Xmx256m"
+  volumes:
+    - "${LOCAL_PATH}/cluster/config/es-slaver-2.yml:/usr/share/elasticsearch/config/elasticsearch.yml"
+    - "${LOCAL_PATH}/cluster/data-s-2:/usr/share/elasticsearch/data"

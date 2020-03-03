@@ -1,0 +1,19 @@
+# 簇
+cluster.name: es-cluster
+# 节点名称
+node.name: es-slaver-2
+# 是否参与master选举
+node.master: false
+# 是否保存数据
+node.data: true
+# network 
+# ip地址
+network.host: 127.0.0.1
+http.port: 9202
+transport.tcp.port: 9302
+http.cors.enabled: true
+http.cors.allow-origin: "*"
+# 
+discovery.zen.ping.unicast.hosts: ["es-master:9300", "es-slaver-1:9301", "es-slaver-2:9302"]
+# 
+discovery.zen.minimum_master_nodes: 2

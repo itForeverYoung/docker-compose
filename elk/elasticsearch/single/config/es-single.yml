@@ -1,0 +1,26 @@
+# 簇
+# cluster.name: es-cluster
+# 节点名称
+# node.name: es-master
+# 是否参与master选举
+# node.master: true
+# 是否保存数据
+# node.data: true
+# 索引分片数量
+# index.number_of_shards: 5
+# 索引冗余分片数
+# index.number_of_replicas: 1
+# ==========network==========
+# ip地址
+# network.bind_host: 0.0.0.0
+# network.publish_host: 127.0.0.1
+# 以上两个参数，如果设置为相等的host，就等同于设置network.host
+# network.host: 127.0.0.1
+# http.port: 9200
+# transport.tcp.port: 9300
+# http.cors.enabled: true
+# http.cors.allow-origin: "*"
+# 
+# discovery.zen.ping.unicast.hosts: ["es-master:9300", "es-slaver-1:9301", "es-slaver-2:9302"]
+# 
+# discovery.zen.minimum_master_nodes: 2

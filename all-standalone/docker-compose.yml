@@ -1,0 +1,151 @@
+version: '3'
+services:
+  mysql:
+    # 镜像
+    image: mysql:5.7
+    # 容器名称
+    container_name: mysql-5.7
+    hostname: mysql-5.7
+    # 开放端口
+    ports:
+      - "3306:3306"
+    # 设置容器变量
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+    # 挂载卷
+    volumes:
+      - "./mysql/single/conf:/etc/mysql/conf.d"
+      - "./mysql/single/data:/var/lib/mysql"
+      - "./mysql/single/logs:/var/log/mysql"
+    # 启动时执行的命令，设置字符集，设置编码，设置时区
+    command: ['mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci', '--explicit_defaults_for_timestamp=false']
+    # 是否自动重启
+    # restart: always
+    # 加入网络组
+    networks:
+      - db
+  redis:
+    image: redis
+    container_name: redis
+    hostname: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - "./redis/single/conf:/etc/redis"
+      - "./redis/single/data:/data"
+    # 指定以配置文件启动
+    command: redis-server /etc/redis/redis.conf
+    # 开启持久化，现已通过配置文件进行开启
+    # command: ['redis-server', '--appendonly', 'yes']
+    # 是否自动重启
+    # restart: always
+    networks:
+      - db
+  mongo:
+    image: mongo
+    container_name: mongodb
+    hostname: mongo
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: 123456
+    # volumes:
+      # - "./mongo/single/data:/data/db"
+    # 是否自动重启
+    # restart: always
+    networks:
+      - db
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbitmq
+    hostname: rabbitmq
+    ports:
+      - "5671:5671"
+      - "5672:5672"
+      - "15671:15671"
+      - "15672:15672"
+      - "4369:4369"
+    environment:
+        RABBITMQ_DEFAULT_USER: root
+        RABBITMQ_DEFAULT_PASS: 123456
+    # volumes:
+      # - "${LOCAL_PATH}/rabbitmq/single/conf/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf"
+      # - "${LOCAL_PATH}/rabbitmq/single/data:/var/lib/rabbitmq"
+    # 是否自动重启
+    # restart: always
+    networks: 
+      - mq
+  elasticsearch:
+    image: elasticsearch
+    container_name: elasticsearch
+    hostname: elasticsearch
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    environment: 
+      ES_JAVA_OPTS: "-Xms512m -Xmx512m"
+    volumes:
+      # - "./elasticsearch/single/config/es-single.yml:/usr/share/elasticsearch/config/elasticsearch.yml"
+      - "./elasticsearch/single/data:/usr/share/elasticsearch/data"
+    # 是否自动重启
+    # restart: always
+    networks:
+      - elk
+  # logstash:
+    # image: logstash
+    # container_name: logstash
+    # hostname: logstash
+    # ports: 
+    #   - "4567:4567"
+    #   - "4568:4568"
+    # depends_on:
+    #   - elasticsearch
+  kibana: 
+    image: kibana
+    container_name: kibana
+    hostname: kibana
+    ports:
+      - "5601:5601"
+    environment: 
+      I18N_LOCALE: "zh-CN"
+    links: [elasticsearch]
+    depends_on:
+      - elasticsearch
+    # 是否自动重启
+    # restart: always
+    networks:
+      - elk
+  # kafka:
+  zookeeper:
+    image: zookeeper
+    container_name: zookeeper
+    hostname: zookeeper
+    ports:
+      # client port
+      - "2181:2181"
+      # - "2888:2888"
+      # - "3888:3888"
+      # admin ui
+      - "8080:8080"
+    environment: 
+      ZOO_MY_ID: 1
+      ZOO_SERVERS: server.1=zookeeper:2888:3888;2181
+      # 日志等级
+      ZOO_LOG4J_PROP: "INFO,ROLLINGFILE"
+    # volumes: 
+      # 挂载配置文件
+      # - "./zookeeper/single/conf/zoo.cfg:/conf/zoo.cfg"
+      # 挂载数据卷
+      # - "./zookeeper/single/data:/data"
+      # 挂载日志卷
+      # - "./zookeeper/single/logs:/datalog"
+    # 是否自动重启
+    # restart: always
+    networks: 
+      - zk
+networks:
+  db:
+  mq:
+  elk:
+  zk:

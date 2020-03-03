@@ -1,0 +1,15 @@
+version: '3'
+services:
+  redis-master:
+    image: redis
+    container_name: redis-master
+    ports:
+      - "6379:6379"
+    volumes:
+      - "./single/conf:/etc/redis"
+      - "./single/data:/data"
+    command: ["redis-server", "/etc/redis/redis.conf"]
+    networks:
+      - redis
+networks:
+  redis:
